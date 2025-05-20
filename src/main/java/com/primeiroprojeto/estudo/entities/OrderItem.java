@@ -3,6 +3,7 @@ package com.primeiroprojeto.estudo.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.primeiroprojeto.estudo.entities.pk.OrderItemPk;
 
 import jakarta.persistence.EmbeddedId;
@@ -18,17 +19,18 @@ public class OrderItem implements Serializable {
 	private OrderItemPk id = new OrderItemPk();
 	
 	private Integer quantity;
-	private Double preice;
+	private Double price;
 	
 	public OrderItem() {}
 
-	public OrderItem(Order order,Product product, Integer quantity, Double preice) {
+	public OrderItem(Order order,Product product, Integer quantity, Double price) {
         id.setOrder(order);
         id.setProduct(product);
 		this.quantity = quantity;
-		this.preice = preice;
+		this.price = price;
 	}
 	
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
@@ -36,6 +38,7 @@ public class OrderItem implements Serializable {
 	public void setOrder(Order order) {
 		id.setOrder(order);
 	}
+	
 	public Product getProduct() {
 		return id.getProduct();
 	}
@@ -52,12 +55,16 @@ public class OrderItem implements Serializable {
 		this.quantity = quantity;
 	}
 
-	public Double getPreice() {
-		return preice;
+	public Double getPrice() {
+		return price;
 	}
 
-	public void setPreice(Double preice) {
-		this.preice = preice;
+	public void setPrice(Double preice) {
+		this.price = preice;
+	}
+	
+	public Double getSubTotal() {
+		return price * quantity;
 	}
 
 	@Override
